@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIPSA NETWORK - Объект #0001</title>
+    <style>
+        :root {
+            --blood: #8a0303;
+            --black: #0a0a0a;
+            --glow: #03a062;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(3, 160, 98, 0.05) 0%, transparent 20%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><rect width="100" height="1" fill="white"/></svg>');
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            border-left: 1px solid var(--blood);
+            border-right: 1px solid var(--blood);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        header {
+            border-bottom: 1px solid var(--blood);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: var(--glow);
+            text-shadow: 0 0 5px var(--glow);
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        h1::after {
+            content: "▼";
+            position: absolute;
+            right: 0;
+            bottom: -15px;
+            font-size: 12px;
+            color: var(--blood);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .access-warning {
+            background-color: rgba(138, 3, 3, 0.2);
+            border-left: 3px solid var(--blood);
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+
+        .object-container {
+            border: 1px solid #333;
+            padding: 20px;
+            margin: 30px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .object-container::before {
+            content: "CLASSIFIED";
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: var(--black);
+            padding: 0 10px;
+            color: var(--blood);
+            font-size: 12px;
+        }
+
+        .object-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .object-id {
+            color: var(--glow);
+            font-weight: bold;
+        }
+
+        .object-status {
+            color: var(--blood);
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            border: 1px solid #333;
+            border-bottom: 1px solid var(--black);
+            margin-bottom: -1px;
+            background-color: rgba(3, 160, 98, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .property-name {
+            color: var(--glow);
+            font-weight: bold;
+        }
+
+        .incident-log {
+            margin-top: 20px;
+        }
+
+        .incident-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #333;
+        }
+
+        .incident-date {
+            color: var(--glow);
+            font-weight: bold;
+        }
+
+        .incident-description {
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .protocol-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .protocol-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .protocol-list li::before {
+            content: "■";
+            position: absolute;
+            left: 0;
+            color: var(--blood);
+        }
+
+        footer {
+            margin-top: 50px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #555;
+        }
+
+        .glitch {
+            animation: glitch 1s linear infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: none; }
+            25% { text-shadow: -2px 0 var(--glow), 2px 0 var(--blood); }
+            50% { text-shadow: 2px 0 var(--glow), -2px 0 var(--blood); }
+            75% { text-shadow: -2px 0 var(--blood), 2px 0 var(--glow); }
+            100% { text-shadow: 2px 0 var(--blood), -2px 0 var(--glow); }
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        .corner-top {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-style: solid;
+            border-color: var(--glow);
+            border-width: 2px 0 0 2px;
+            top: 0;
+            left: 0;
+        }
+
+        .corner-bottom {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-style: solid;
+            border-color: var(--glow);
+            border-width: 0 2px 2px 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .login-form {
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #333;
+            background-color: rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background-color: #111;
+            border: 1px solid #333;
+            color: #ccc;
+        }
+
+        .login-form button {
+            background-color: var(--blood);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #6a0202;
+        }
+
+        .terminal {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .terminal::before {
+            content: "ARIPSA_TERMINAL";
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: var(--black);
+            padding: 0 10px;
+            color: var(--glow);
+            font-size: 12px;
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+        }
+
+        .terminal-prompt {
+            color: var(--glow);
+        }
+
+        .terminal-command {
+            color: white;
+        }
+
+        .terminal-response {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="corner-top"></div>
+        <div class="corner-bottom"></div>
+        
+        <header>
+            <h1 class="glitch">ARIPSA RESEARCH NETWORK</h1>
+            <div class="access-warning">
+                ВНИМАНИЕ: Доступ к этой информации ограничен персоналом 5 уровня и выше. Несанкционированный доступ будет наказан.
+            </div>
+        </header>
+
+        <div class="login-form" id="loginForm">
+            <h3>ДОСТУП К СЕТИ ARIPSA</h3>
+            <input type="text" placeholder="Идентификатор" id="username">
+            <input type="password" placeholder="Код доступа" id="password">
+            <button onclick="login()">ВХОД</button>
+        </div>
+
+        <div id="securedContent" style="display: none;">
+            <div class="object-container">
+                <div class="object-header">
+                    <div class="object-id">ОБЪЕКТ #0001</div>
+                    <div class="object-status">СТАТУС: <span style="color: var(--blood);">СОДЕРЖИТСЯ</span></div>
+                </div>
+
+                <div class="tab-container">
+                    <div class="tab active" onclick="switchTab('description')">ОПИСАНИЕ</div>
+                    <div class="tab" onclick="switchTab('containment')">ПРОТОКОЛЫ</div>
+                    <div class="tab" onclick="switchTab('incidents')">ИНЦИДЕНТЫ</div>
+                </div>
+
+                <div class="tab-content active" id="description">
+                    <div class="property-grid">
+                        <div class="property-name">Кодовое имя:</div>
+                        <div>"Улыбающийся"</div>
+                        
+                        <div class="property-name">Класс:</div>
+                        <div>Кетер</div>
+                        
+                        <div class="property-name">Место содержания:</div>
+                        <div>Блок-6, Зона-23</div>
+                        
+                        <div class="property-name">Дата обнаружения:</div>
+                        <div>01/01/2025</div>
+                    </div>
+
+                    <h3>ОПИСАНИЕ:</h3>
+                    <p>
+                        Объект #0001 представляет собой гуманоидное существо ростом приблизительно 1.8 метра. 
+                        Кожа объекта неестественно гладкая, полностью лишена волосяного покрова и обладает 
+                        характерным фарфоровым блеском.
+                    </p>
+                    <p>
+                        Наиболее отличительной чертой объекта является его лицо - в спокойном состоянии 
+                        напоминающее обычное человеческое, однако при активации рот объекта способен 
+                        растягиваться до ушей, обнажая несколько рядов острых зубов.
+                    </p>
+                    <p>
+                        Объект излучает аномальное поле, заставляющее наблюдателей непроизвольно улыбаться. 
+                        Длительное воздействие приводит к разрывам щёчной ткани у наблюдателей.
+                    </p>
+                </div>
+
+                <div class="tab-content" id="containment">
+                    <h3>ПРОТОКОЛЫ СОДЕРЖАНИЯ:</h3>
+                    <ul class="protocol-list">
+                        <li>Объект должен содержаться в полностью затемнённой камере 24/7</li>
+                        <li>Персонал обязан носить защитные очки с зеркальными линзами</li>
+                        <li>Запрещено любое вербальное общение в пределах 10 метров от камеры</li>
+                        <li>Кормление - раз в 48 часов (использовать только Д-класс)</li>
+                        <li>При контакте с объектом обязательно наличие наушников с белым шумом</li>
+                    </ul>
+
+                    <h3 style="margin-top: 20px;">СПЕЦИАЛЬНЫЕ ИНСТРУКЦИИ:</h3>
+                    <p>
+                        В случае, если объект начинает напевать (см. Инцидент 0001-4), 
+                        немедленно активировать протокол "Тишина" и эвакуировать персонал.
+                    </p>
+                </div>
+
+                <div class="tab-content" id="incidents">
+                    <h3>ИНЦИДЕНТЫ:</h3>
+                    
+                    <div class="incident-log">
+                        <div class="incident-item">
+                            <div class="incident-date">ИНЦИДЕНТ 0001-1 (01/01/2025)</div>
+                            <div class="incident-description">
+                                Первичное обнаружение в деревне ███████. На месте обнаружено 14 тел, 
+                                все с характерными повреждениями щёчной ткани. Объект спокойно сидел 
+                                в центре комнаты, улыбаясь. При попытке контакта агент █████ начал 
+                                неконтролируемо смеяться, после чего откусил себе язык.
+                            </div>
+                        </div>
+                        
+                        <div class="incident-item">
+                            <div class="incident-date">ИНЦИДЕНТ 0001-3 (05/01/2025)</div>
+                            <div class="incident-description">
+                                Во время транспортировки объект начал напевать. Все 6 агентов сопровождения 
+                                начали улыбаться, затем атаковали друг друга. Выживший агент сообщил, что 
+                                "слышал голос матери" перед потерей сознания.
+                            </div>
+                        </div>
+                        
+                        <div class="incident-item">
+                            <div class="incident-date">ИНЦИДЕНТ 0001-7 (15/02/2025)</div>
+                            <div class="incident-description">
+                                Объект исчез из камеры на 2 часа 37 минут. Обнаружен в комнате отдыха, 
+                                сидящим за столом с тремя сотрудниками. Все трое улыбались, несмотря на 
+                                полностью оторванные щёки. Объект вернулся в камеру добровольно.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-line"><span class="terminal-prompt">ARIPSA></span> <span class="terminal-command">access object_0001 full</span></div>
+                <div class="terminal-line"><span class="terminal-response">Доступ разрешён. Загрузка данных...</span></div>
+                <div class="terminal-line"><span class="terminal-response">ВНИМАНИЕ: Объект проявляет активность</span></div>
+                <div class="terminal-line"><span class="terminal-prompt">ARIPSA></span> <span class="terminal-command">status containment</span></div>
+                <div class="terminal-line"><span class="terminal-response">Состояние: НОРМАЛЬНОЕ</span></div>
+                <div class="terminal-line"><span class="terminal-response">Последняя проверка: 05/04/2025 03:47</span></div>
+                <div class="terminal-line"><span class="terminal-response">Примечание: Объект сегодня особенно активен</span></div>
+                <div class="terminal-line"><span class="terminal-prompt">ARIPSA></span> <span class="terminal-command blink">█</span></div>
+            </div>
+        </div>
+
+        <footer>
+            ARIPSA RESEARCH NETWORK v0.9.4 | Все права защищены | 2025
+            <br>
+            <span style="color: var(--blood);">Не распространять. Не копировать. Не улыбаться.</span>
+        </footer>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === "aripsa" && password === "smile") {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('securedContent').style.display = 'block';
+                
+                // Глюк-эффект при входе
+                document.body.style.animation = 'glitch 0.5s linear';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 500);
+            } else {
+                alert("ОШИБКА ДОСТУПА: Неверные учетные данные");
+            }
+        }
+
+        function switchTab(tabId) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убрать активный класс со всех табов
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(tabId).classList.add('active');
+            
+            // Активный класс для выбранного таба
+            event.currentTarget.classList.add('active');
+        }
+
+        // Случайные глюки на странице
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                const elements = document.querySelectorAll('h1, p, .terminal-line');
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                randomElement.classList.add('glitch');
+                
+                setTimeout(() => {
+                    randomElement.classList.remove('glitch');
+                }, 1000);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
